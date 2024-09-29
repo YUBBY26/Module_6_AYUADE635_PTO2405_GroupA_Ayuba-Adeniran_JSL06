@@ -8,8 +8,27 @@ const menu = {
 // Function to display menu items by category
 function displayMenuItems(menu) {
     // Get the menu container element from the HTML
+    const menuContainer = document.getElementById('menu');
+    menuContainer.innerHTML = '';// Clear the existing menu items
+
 
     // Loop through each category and its items in the menu object
+    Object.keys(menu).forEach(category => {
+        const categoryElement = document.createElement('h2');
+        categoryElement.textContent = category;
+        menuContainer.appendChild(categoryElement);
+
+        const itemsList = document.createElement('ul');
+        menuContainer.appendChild(itemsList);
+        menu[category].forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.textContent = item;
+            itemsList.appendChild(listItem);
+            listItem.addEventListener('click', () => {
+                addToOrder(item);
+            });
+        });
+    });
 
         // Create an element to represent the category
 
@@ -36,6 +55,20 @@ function displayMenuItems(menu) {
 
 // Callback function for adding an item to the order
 function addToOrder(itemName) {
+    const orderItemsList = document.getElementById('order-items')
+    const orderTotalElement = document.getElementById('order-total');
+
+    const listItem = document.createElement('li');
+    listItem.textContent = itemName;
+    orderItemsList.appendChild(listItem);
+
+    const orderItems = Array.from(orderItemsList.getElementsByTagName('li'));
+    const totalPrice = orderItems.length * 60;
+    orderTotalElement.textContent = totalPrice.toFixed(2);
+
+
+
+
     // Get the order items list and the order total element from the HTML
 
     // Create a list item for the order
@@ -51,6 +84,7 @@ function addToOrder(itemName) {
 
 // Function to initialize the menu system
 function initMenuSystem(menu) {
+    displayMenuItems(menu); // Display the menu items initially
     // Call the function to display menu items
 }
 
